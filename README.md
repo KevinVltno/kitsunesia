@@ -16,6 +16,7 @@ supabase/
   migrations/008_curriculum_units.sql  30 unit tematik N5–N1
   migrations/009_kanji_expansion.sql  Perluasan kanji N4–N1
   migrations/010_practice_sampling.sql  Pengambilan soal acak per bagian
+  migrations/011_admin_learning_progress.sql  Ringkasan dan aktivitas belajar khusus admin
   audio/                            Klip untuk bucket privat
 public/
   kana-audio/                       Klip kana dasar, dakuten, dan yōon
@@ -39,6 +40,7 @@ src/
   Plan.tsx                          Rencana mingguan dan kecepatan belajar
   Collection.tsx                    Bookmark, catatan, dan target harian
   Admin.tsx                         CRUD, target level, cakupan, dan daftar pengguna
+  AdminLearners.tsx                 Progres dan aktivitas per pengguna
   Import.tsx                        Validasi, pratinjau, dan laporan CSV
   ui.tsx                            Komponen antarmuka
   styles.css, levels.css, experience.css  Tema dan tata letak
@@ -50,7 +52,7 @@ tsconfig.json, vercel.json         TypeScript dan routing Vercel
 
 ## Setup Supabase
 
-1. Buka **SQL Editor** pada proyek Supabase. Untuk proyek baru, jalankan `001` sampai `010` berurutan, satu file per eksekusi. Jika versi N5/N4 sudah terpasang dan `001` serta `002` sudah dijalankan, mulai dari `003`. Migrasi membawa ulasan kosakata lama ke `srs_cards`, mempertahankan rencana, dan menggunakan level rencana lama sebagai level aktif jika ada. Jika `001`–`006` sudah terpasang, jalankan `007`–`010`. Pada proyek yang sudah berjalan, mulai dari migrasi pertama yang belum tercatat.
+1. Buka **SQL Editor** pada proyek Supabase. Untuk proyek baru, jalankan `001` sampai `011` berurutan, satu file per eksekusi. Jika versi N5/N4 sudah terpasang dan `001` serta `002` sudah dijalankan, mulai dari `003`. Migrasi membawa ulasan kosakata lama ke `srs_cards`, mempertahankan rencana, dan menggunakan level rencana lama sebagai level aktif jika ada. Jika `001`–`006` sudah terpasang, jalankan `007`–`011`. Pada proyek yang sudah berjalan, mulai dari migrasi pertama yang belum tercatat.
 2. Di **Storage**, buka bucket privat `learning-audio`. Unggah `supabase/audio/n5.mp3` dan `n4.mp3` ke folder `seed`. Unggah lima file di `supabase/audio/levels/` ke folder `levels` di bucket. Unggah 50 file dari `supabase/audio/words/` ke folder `words`. Contoh path objek adalah `levels/n1.mp3` untuk Mendengar dan `words/n1-01.mp3` untuk Kosakata.
 3. Di **Authentication → URL Configuration**, isi **Site URL** dengan `http://localhost:5173` untuk pengembangan. Tambahkan URL lokal dan `http://localhost:5173/reset` ke daftar redirect. Tambahkan URL produksi dan versi `/reset` setelah deploy.
 4. Aktifkan provider **Email**. Untuk Google, buat OAuth client **Web application** di Google Cloud, masukkan callback yang ditampilkan di provider Google Supabase ke **Authorized redirect URIs**, lalu masukkan Client ID dan Client Secret ke pengaturan Supabase. Jika consent screen masih dalam mode pengujian, tambahkan akun penguji. [Panduan Google OAuth Supabase](https://supabase.com/docs/guides/auth/social-login/auth-google)

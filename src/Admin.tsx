@@ -3,6 +3,7 @@ import {useMutation,useQuery,useQueryClient} from '@tanstack/react-query'
 import {Pencil,Plus,Trash2} from 'lucide-react'
 import {labels,levels,needDb,reject,rpc,sectionLabels,type Kind,type Level,type Profile} from './data'
 import {useLevel,useSummaries} from './Levels'
+import {AdminLearners} from './AdminLearners'
 import {Pages,Search,usePage,usePaging} from './Paging'
 import {CsvImport,importKinds,type ImportKind} from './Import'
 import {Empty,ErrorLine,Title} from './ui'
@@ -132,11 +133,6 @@ function Editor({table,level}:{table:Tab;level:Level}){
  {list.isPending?<p>Memuat data…</p>:list.data?.items.length?list.data.items.map(row=><article className="history-entry section-line" key={String(row[config.key])}><div><strong>{labelOf(row)}</strong><p className="muted">{String(row.level)} {row.meaning?'· '+String(row.meaning):''}</p>{table==='level_targets'&&<p>{String(row.vocabulary)} kata · {String(row.kanji)} kanji · {String(row.grammar)} pola</p>}</div><div className="toolbar"><button className="icon-button" aria-label="Edit" onClick={()=>start(row)}><Pencil size={17}/></button>{table!=='level_targets'&&<button className="icon-button" aria-label="Hapus" onClick={()=>{setRemove(row);deletion.reset()}}><Trash2 size={17}/></button>}</div></article>):<p>Belum ada data yang cocok.</p>}
  <Pages page={p.page} count={list.data?.count??0} onChange={p.setPage}/></section>{canImport&&<CsvImport key={table} kind={table as ImportKind}/>}</>
 }
-function Users(){
- const p=usePaging()
- const users=usePage<Profile>('profiles',{...p,columns:['name'],sort:'name'})
- return <section className="panel content-card stack"><h2>Daftar pengguna</h2><Search value={p.search} onChange={p.setSearch}/><ErrorLine error={users.error}/>{users.data?.items.map(user=><div className="section-line history-entry" key={user.id}><div><strong>{user.name||'Pengguna'}</strong><p className="muted account-id">{user.id}</p></div><span className="level-pill">{user.role} · {user.active_level}</span></div>)}<Pages page={p.page} count={users.data?.count??0} onChange={p.setPage}/></section>
-}
 function Coverage(){
  const summaries=useSummaries()
  return <section className="panel content-card stack"><h2>Jumlah konten terhadap target kumulatif</h2><ErrorLine error={summaries.error}/><div className="table-scroll"><table><thead><tr><th>Level</th><th>Kosakata</th><th>Kanji</th><th>Tata bahasa</th></tr></thead><tbody>{summaries.data?.map(x=><tr key={x.level}><th>{x.level}</th><td>{x.vocabulary_available} / {x.vocabulary}</td><td>{x.kanji_available} / {x.kanji}</td><td>{x.grammar_available} / {x.grammar}</td></tr>)}</tbody></table></div></section>
@@ -151,5 +147,5 @@ function AdminWorkspace(){
  const [level,setLevel]=useState(active.level)
  return <><Title title="Administrasi">Kelola materi, impor CSV, target level, dan pengguna.</Title>
  <div className="toolbar"><label>Bagian<select aria-label="Bagian" value={tab} onChange={e=>setTab(e.target.value as typeof tab)}><option value="coverage">Cakupan konten</option>{(Object.keys(configs) as Tab[]).map(key=><option key={key} value={key}>{configs[key].label}</option>)}<option value="users">Pengguna</option></select></label>{tab!=='coverage'&&tab!=='users'&&<label>Filter level<select aria-label="Filter level" value={level} onChange={e=>setLevel(e.target.value as Level)}>{levels.map(x=><option key={x}>{x}</option>)}</select></label>}</div>
- {tab==='coverage'?<Coverage/>:tab==='users'?<Users/>:<Editor key={tab+level} table={tab} level={level}/>}</>
+ {tab==='coverage'?<Coverage/>:tab==='users'?<AdminLearners/>:<Editor key={tab+level} table={tab} level={level}/>}</>
 }

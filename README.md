@@ -26,7 +26,7 @@ public/
   kitsu-sedih.png                    Kitsu memberi semangat
 src/
   data.ts                           Klien Supabase, tipe, dan fungsi bersama
-  Auth.tsx                          Registrasi, login email/Google, dan reset
+  Auth.tsx                          Registrasi, login email, dan reset
   Landing.tsx                       Beranda publik dan demo kana
   main.tsx                          Router dan tata letak
   Levels.tsx                        Level aktif, penempatan, dan ringkasan level
@@ -55,7 +55,7 @@ tsconfig.json, vercel.json         TypeScript dan routing Vercel
 1. Buka **SQL Editor** pada proyek Supabase. Untuk proyek baru, jalankan `001` sampai `011` berurutan, satu file per eksekusi. Jika versi N5/N4 sudah terpasang dan `001` serta `002` sudah dijalankan, mulai dari `003`. Migrasi membawa ulasan kosakata lama ke `srs_cards`, mempertahankan rencana, dan menggunakan level rencana lama sebagai level aktif jika ada. Jika `001`–`006` sudah terpasang, jalankan `007`–`011`. Pada proyek yang sudah berjalan, mulai dari migrasi pertama yang belum tercatat.
 2. Di **Storage**, buka bucket privat `learning-audio`. Unggah `supabase/audio/n5.mp3` dan `n4.mp3` ke folder `seed`. Unggah lima file di `supabase/audio/levels/` ke folder `levels` di bucket. Unggah 50 file dari `supabase/audio/words/` ke folder `words`. Contoh path objek adalah `levels/n1.mp3` untuk Mendengar dan `words/n1-01.mp3` untuk Kosakata.
 3. Di **Authentication → URL Configuration**, isi **Site URL** dengan `http://localhost:5173` untuk pengembangan. Tambahkan URL lokal dan `http://localhost:5173/reset` ke daftar redirect. Tambahkan URL produksi dan versi `/reset` setelah deploy.
-4. Aktifkan provider **Email**. Untuk Google, buat OAuth client **Web application** di Google Cloud, masukkan callback yang ditampilkan di provider Google Supabase ke **Authorized redirect URIs**, lalu masukkan Client ID dan Client Secret ke pengaturan Supabase. Jika consent screen masih dalam mode pengujian, tambahkan akun penguji. [Panduan Google OAuth Supabase](https://supabase.com/docs/guides/auth/social-login/auth-google)
+4. Aktifkan provider **Email** untuk pendaftaran, login, dan reset kata sandi.
 5. Daftarkan akun admin pertama. Salin UUID dari **Authentication → Users**, ganti UUID contoh pada SQL berikut, lalu jalankan lewat SQL Editor. Masuk kembali agar menu Administrasi muncul.
 
 ```sql
@@ -75,7 +75,7 @@ npm run dev
 
 Buka `http://localhost:5173` dari URL yang dicetak Vite. Pada Windows PowerShell, gunakan `npm.cmd` jika kebijakan eksekusi menolak `npm.ps1`. Build produksi tersedia melalui `npm run build` dan dapat dilihat dengan `npm run preview`.
 
-Di Vercel, impor repositori, pilih preset **Vite**, set build command `npm run build` dan output `dist`. Salin kedua variabel `VITE_SUPABASE_*` ke Environment Variables. Setelah deploy, set Site URL dan allowlist redirect produksi di Supabase, lalu uji refresh di `/kanji`, login Google, dan reset kata sandi. `vercel.json` mengarahkan rute SPA ke React Router. [Panduan Vite untuk Vercel](https://vite.dev/guide/static-deploy.html#vercel)
+Di Vercel, impor repositori, pilih preset **Vite**, set build command `npm run build` dan output `dist`. Salin kedua variabel `VITE_SUPABASE_*` ke Environment Variables. Setelah deploy, set Site URL dan allowlist redirect produksi di Supabase, lalu uji refresh di `/kanji`, login email, dan reset kata sandi. `vercel.json` mengarahkan rute SPA ke React Router. [Panduan Vite untuk Vercel](https://vite.dev/guide/static-deploy.html#vercel)
 
 ## Level dan progres
 
@@ -118,7 +118,7 @@ Gunakan dua pengguna dan satu admin. Coba desktop dan ponsel.
 
 | Fitur | Pemeriksaan |
 | --- | --- |
-| Auth | Daftar, konfirmasi email, masuk, refresh, keluar, reset kata sandi, dan Google OAuth. |
+| Auth | Daftar, konfirmasi email, masuk, refresh, keluar, reset kata sandi dan login ulang. |
 | Level | Lewati penempatan, ulang tes melalui `/penempatan`, ganti N5–N1 di header, lalu refresh. Periksa filter materi, rekomendasi, dan target. |
 | RLS | Coba baca kartu, bookmark, progres, dan riwayat akun lain. Sebagai user biasa, coba ubah role, tulis konten, baca kunci jawaban, dan jalankan impor. |
 | Kana | Uji hiragana, katakana, dakuten, dan yōon. Cari romaji, pindah halaman, putar audio, buka canvas. |

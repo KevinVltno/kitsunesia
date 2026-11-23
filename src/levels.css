@@ -11,7 +11,25 @@
 .table-scroll{overflow:auto;max-width:100%}
 .table-scroll th,.table-scroll td{text-align:left;padding:.65rem;border-bottom:1px solid var(--line);vertical-align:top}
 .reading-text{overflow-wrap:anywhere}
-.kana-categories{display:flex;margin:10px 0;width:fit-content}
+.kana-controls{display:grid;gap:12px;padding:15px}
+.kana-controls .segmented button{display:inline-flex;align-items:center;gap:5px}
+.kana-list-heading{margin-block:20px 12px}
+.kana-list-heading small{color:var(--muted)}
+.kana-groups,.kana-chart{display:grid;gap:10px}
+.kana-set,.kana-chart-row{padding:12px}
+.kana-set h3,.kana-chart-row h3{font-size:.97rem}
+.kana-cells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:8px}
+.kana-cell{display:grid;justify-items:stretch;border:1px solid #e9ddd2;border-radius:8px;min-width:0;background:#fffaf2;text-align:center}
+.kana-cell.active,.kana-cell:focus-within{border-color:#ae755e;background:#f8e8d8}
+.kana-cell button{display:grid;justify-items:center;gap:2px;padding:4px 0;border-radius:8px 8px 0 0}
+.kana-cell button strong{color:#43354e;font-size:clamp(1.15rem,4vw,1.8rem);line-height:1.3}
+.kana-cell button span{display:flex;align-items:center;justify-content:center;gap:2px;font-size:.72rem;color:#695263}
+.kana-cell a{border-top:1px solid #eadfd4;padding:4px 0;font-size:.72rem;font-weight:700;color:#754133}
+.kana-chart{gap:0;padding:0 10px}
+.kana-chart-row+.kana-chart-row{border-top:1px solid var(--line)}
+.kana-practice{max-width:620px}
+.kana-practice [role=status]{display:flex;align-items:center;gap:5px}
+@media(min-width:980px){.kana-groups{grid-template-columns:repeat(2,minmax(0,1fr))}.kana-chart-row{display:grid;grid-template-columns:9.5rem 1fr;align-items:center;gap:12px}.kana-chart-row .kana-cells{margin-top:0}}
 .curriculum-grid{display:grid;gap:12px;margin-top:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
 .curriculum-card{margin-top:0}
 .curriculum-card header{display:grid;justify-items:start;gap:7px}
